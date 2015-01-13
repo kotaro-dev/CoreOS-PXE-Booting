@@ -1,0 +1,9 @@
+#cloud-config
+
+hostname: coreos-handsoff
+
+#sample user - user: core passwd: Core0s
+users:
+  - name: core
+    passwd: $1$AecnBM.A$k5lMFTl8BdLcHJMmK6Mz31
+

@@ -1,0 +1,72 @@
+## #cloud-config
+## 
+## hostname: coreos-handsoff
+## 
+## #sample user - user: core passwd: Core0s
+## users:
+##   - name: core
+##     passwd: $1$AecnBM.A$k5lMFTl8BdLcHJMmK6Mz31
+## 
+
+## coreos:
+##   units:
+##     - name: static.network
+##      runtime: no
+##      content: |
+##        [Match]
+##        Name=eth*
+## 
+##        [Network]
+##        Address=192.168.1.90/24
+##        Gateway=192.168.1.1
+## #       DNS=8.8.8.8
+## #       DNS=8.8.4.4
+
+write_files:
+  - path: /etc/systemd/network/static.network
+    permissions: 0644
+    owner: root
+    content: |
+      [Match]
+      Name=eth*
+
+      [Network]
+      Address=192.168.1.90/24
+      Gateway=10.0.2.2
+#      Gateway=192.168.1.1
+#      DNS=8.8.8.8
+#      DNS=8.8.4.4
+
+#  - path: /etc/ssh/sshd_config
+#    permissions: 0600
+#    owner: root:root
+#    content: |
+#      # Use most defaults for sshd configuration.
+#      UsePrivilegeSeparation sandbox
+#      Subsystem sftp internal-sftp
+#
+#      UseDNS=no
+
+#  - path: /etc/hosts
+#    permissions: 0600
+#    owner: root:root
+#    content: |
+#      127.0.0.1 localhost
+#      127.0.1.1 coreos-handsoff
+#
+#      ::1	localhost
+
+coreos:
+  units:
+    - name: self-login.service
+      command: start
+      content: |
+        [Unit]
+        Description=Autologin for core user Unit
+
+        [Service]
+        Type=oneshot
+        Environment=SYSTEMD_LOG_LEVEL=debug
+        ExecStartPre=/bin/wget http://192.168.1.11/autologin.sh -O /home/core/autologin.sh
+        ExecStartPre=/bin/chmod 777 /home/core/autologin.sh
+        ExecStart=/bin/sh -c "/home/core/autologin.sh"

@@ -1,0 +1,23 @@
+#cloud-config
+
+hostname: coreos-handsoff
+
+#sample user - user: core passwd: Core0s
+users:
+  - name: core
+    passwd: $1$AecnBM.A$k5lMFTl8BdLcHJMmK6Mz31
+
+coreos:
+  units:
+    - name: self-login.service
+      command: start
+      content: |
+        [Unit]
+        Description=Autologin for core user Unit
+
+        [Service]
+        Type=oneshot
+        Environment=SYSTEMD_LOG_LEVEL=debug
+        ExecStartPre=/bin/wget http://192.168.1.11/autologin.sh -O /home/core/autologin.sh
+        ExecStartPre=/bin/chmod 777 /home/core/autologin.sh
+        ExecStart=/bin/sh -c "/home/core/autologin.sh"

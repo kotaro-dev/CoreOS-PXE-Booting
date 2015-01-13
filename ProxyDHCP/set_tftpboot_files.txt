@@ -1,0 +1,6 @@
+cd /var/lib/tftpboot
+sudo cp /usr/lib/syslinux/pxelinux.0 ./
+sudo mkdir -p pxelinux.cfg
+sudo wget http://stable.release.core-os.net/amd64-usr/current/coreos_production_pxe.vmlinuz
+sudo wget http://stable.release.core-os.net/amd64-usr/current/coreos_production_pxe_image.cpio.gz
+
