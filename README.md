@@ -13,7 +13,7 @@ I note the step about the CoreOS Booting via PXE(network install) for myself.
  
  WakeOnLan(Power On) -> CoreOS autoinstall -> auto login and initial setting.
 
-## Test Environment (usng virtualbox)
+## Test Environment (virtualbox)
 
 ```
 [structure]: PXE Server in Internal network.(192.168.1.xxx)
